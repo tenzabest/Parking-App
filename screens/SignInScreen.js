@@ -9,10 +9,15 @@ import {
     StatusBar,
     Alert
 } from 'react-native';
+
+// import { NavigationContainer } from '@react-navigation/native';
+
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-const SignInScreen = () => {
+// import SenderScreen from "./screens/SenderScreen"
+
+const SignInScreen = ({navigation}) => {
   
     return (
         <View style={styles.container}>
@@ -69,7 +74,7 @@ const SignInScreen = () => {
                     style={styles.signIn}
                 >
                     <TouchableOpacity                   
-                        onPress={()=>alert("Sign In Button")}
+                        onPress={()=>alert("SenderScreen")}
                     >
                         <Text style={[styles.textSign, {
                             color:'#fff'
