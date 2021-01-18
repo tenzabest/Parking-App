@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -7,21 +7,37 @@ import { NavigationContainer } from '@react-navigation/native';
 import ScannerScreen from "./ScannerScreen"
 import StudentsListScreen from "./StudentsListScreen"
 import SettingsScreen from "./SettingsScreen"
+import { render } from 'react-dom';
 
 
 const Tab = createBottomTabNavigator();
 
-function SenderScreen() {
+
+class SenderScreen extends Component {
+  constructor(props){
+    super(props);
+     this.state={value:''};
+     this.getData=this.getData.bind(this);
+   }
+  getData(val){
+    console.log("coucou" ,val );
+   this.setState({
+     value:val
+   });
+   }
+render(){
+
     return (
-     <NavigationContainer>
+    
+    <NavigationContainer>
         <Tab.Navigator
-        initialRouteName="Scanner"
+        initialRouteName="Students"
         tabBarOptions={{
           activeTintColor: '#e91e63',
         }}
       >
         <Tab.Screen
-            name="Notifications"
+            name="Students"
             component={StudentsListScreen}
             options={{
             tabBarLabel: 'Updates',
@@ -32,7 +48,7 @@ function SenderScreen() {
         />  
         <Tab.Screen
             name="Scanner"
-            component={ScannerScreen}
+            children={()=><ScannerScreen sendData={this.getData}></ScannerScreen>}
             options={{
             tabBarLabel: 'Scanner',
             tabBarIcon: ({ color, size }) => (
@@ -53,6 +69,6 @@ function SenderScreen() {
       </Tab.Navigator>
       </NavigationContainer>
     );
-  }
-
+        }
+}
   export default SenderScreen

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Component} from 'react';
 import { 
     View, 
     Text, 
@@ -15,10 +15,9 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-// import SenderScreen from "./screens/SenderScreen"
 
-const SignInScreen = ({navigation}) => {
-  
+class SignInScreen extends Component  {
+  render(){
     return (
         <View style={styles.container}>
                 <StatusBar backgroundColor='#009387' barStyle="light-content"/>
@@ -85,7 +84,8 @@ const SignInScreen = ({navigation}) => {
         </View>
     </View>
       );
-  };
+                        }
+    };
   
   export default SignInScreen;
   
