@@ -1,8 +1,7 @@
-import React, { useState, useEffect,Component } from 'react';
-import { Text, View, StyleSheet, Button,StatusBar,Dimensions } from 'react-native';
+import React, {Component } from 'react';
+import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import * as Permissions from 'expo-permissions';
-import {UserContext} from "./UserContext"
 class ScannerScreen extends Component {
  
   state = {

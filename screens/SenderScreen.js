@@ -7,7 +7,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import ScannerScreen from "./ScannerScreen"
 import StudentsListScreen from "./StudentsListScreen"
 import SettingsScreen from "./SettingsScreen"
-import { render } from 'react-dom';
 
 
 const Tab = createBottomTabNavigator();
@@ -20,10 +19,10 @@ class SenderScreen extends Component {
      this.getData=this.getData.bind(this);
    }
   getData(val){
-    console.log("coucou" ,val );
    this.setState({
      value:val
-   });
+   });     
+
    }
 render(){
 
@@ -38,7 +37,7 @@ render(){
       >
         <Tab.Screen
             name="Students"
-            component={StudentsListScreen}
+            children={()=><StudentsListScreen dataFromParent={this.state.value}></StudentsListScreen>}
             options={{
             tabBarLabel: 'Updates',
             tabBarIcon: ({ color, size }) => (
