@@ -15,9 +15,44 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import {firebase} from "../Setup"
+ import {SignInUser} from "../firebaseService"
 
 class SignInScreen extends Component  {
+    constructor(props){
+        super(props);
+        this.state={
+            emailAddress : "",
+            password : "",
+            user : "", 
+        }
+        
+    }
+           
+    componentDidMount() {
+        const subscriber=firebase.auth().onAuthStateChanged(user => {
+           
+                this.state.user =user   
+                    
+             
+           
+             // Do other things
+           });
+            
+         return subscriber
+    }
+     
   render(){
+    const signIn = () => {
+        SignInUser(this.state.emailAddress, this.state.password)
+          .then((data) => {
+            alert(data);
+          })
+          .catch((error) => {
+            alert("Nom de compte ou mot de passe incorrect!");
+          });
+      };
+    
     return (
         <View style={styles.container}>
                 <StatusBar backgroundColor='#009387' barStyle="light-content"/>
@@ -36,6 +71,10 @@ class SignInScreen extends Component  {
                     placeholder="Your Username"
                     style={styles.textInput}
                     autoCapitalize="none"
+                    value={this.state.emailAddress}
+                    onChangeText={text=>this.setState({...this.state,emailAddress:text})}
+
+
                 />
                 <Feather 
                     name="check-circle"
@@ -58,6 +97,9 @@ class SignInScreen extends Component  {
                     autoCapitalize="none"
                     style={styles.textInput}
                     secureTextEntry={true}
+                    value={this.state.password}
+                    onChangeText={text=>this.setState({...this.state,password:text})}
+
 
                 />
                 <Feather
@@ -73,7 +115,7 @@ class SignInScreen extends Component  {
                     style={styles.signIn}
                 >
                     <TouchableOpacity                   
-                        onPress={()=>alert("SenderScreen")}
+                        onPress={signIn}
                     >
                         <Text style={[styles.textSign, {
                             color:'#fff'
