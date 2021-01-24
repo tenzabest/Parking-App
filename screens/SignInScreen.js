@@ -16,7 +16,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import {firebase} from "../Setup"
- import {SignInUser} from "../firebaseService"
+import {SignInUser} from "../firebaseService"
 
 class SignInScreen extends Component  {
     constructor(props){

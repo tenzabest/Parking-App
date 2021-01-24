@@ -11,7 +11,6 @@ class ScannerScreen extends Component {
 
   async componentDidMount() {
     this.getPermissionsAsync();
-
   }
 
   getPermissionsAsync = async () => {
@@ -50,7 +49,6 @@ class ScannerScreen extends Component {
     this.setState({ scanned: true });
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     this.props.sendData(data);
-
   };
 }
 const styles = StyleSheet.create({
@@ -61,4 +59,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-  export default ScannerScreen
+export default ScannerScreen
