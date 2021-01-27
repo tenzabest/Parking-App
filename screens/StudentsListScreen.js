@@ -11,6 +11,19 @@ function ListStudentsInClass (){
 
   const [students, setStudents] = React.useState([]);
   
+  const editUser = (index) => {
+   
+   
+    let dataToSave = {
+
+  Status: "Couloir"
+
+};
+firebase.database()
+.ref('Students/' + index)
+.update(dataToSave)
+
+}
   React.useEffect(() => {
     const userRef = firebase.database().ref('/Students');
     const OnLoadingListener = userRef.on('value', (snapshot) => {
@@ -23,12 +36,11 @@ function ListStudentsInClass (){
     const childChangedListener = userRef.on('child_changed', (snapshot) => {
       // Set Your Functioanlity Whatever you want.
    
-      alert('Child Updated/Changed');
+      alert('Child Updated');
     });
   
     return () => {
       userRef.off('value', OnLoadingListener);
-      userRef.off('child_removed', childRemovedListener);
       userRef.off('child_changed', childChangedListener);
     };
   }, []);
