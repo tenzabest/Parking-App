@@ -1,6 +1,4 @@
-import React,{Component} from 'react';
 import firebase from 'firebase';
-import Auth from "firebase/auth";
 var firebaseConfig = {
     apiKey: "AIzaSyAMTEy29RAkj_nEX6wFNVgSoZbhMjtqhe0",
     authDomain: "testfirebase1-b64dc.firebaseapp.com",
@@ -16,6 +14,6 @@ var firebaseConfig = {
           this.app=firebase.initializeApp(firebaseConfig); 
         }
        
-export {firebase,Auth}
+export {firebase}
 
     
