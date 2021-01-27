@@ -53,7 +53,7 @@ firebase.database()
         
         {
           
-         students.map((students, index) => (
+         students.filter(students=>students.Status==="En classe").map((students, index) => (
             <ListItem key={index} bottomDivider>
               <ListItem.Content>
                 <ListItem.Title>{students.name}</ListItem.Title>
