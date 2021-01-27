@@ -1,26 +1,57 @@
 import React,{Component} from 'react';
-import { Text, View,Button ,StyleSheet} from 'react-native';
+import { Text, View,Button ,StyleSheet,ScrollView} from 'react-native';
 import {firebase} from "../Setup"
 import { ListItem} from 'react-native-elements'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+import Feather from 'react-native-vector-icons/Feather';
 
 const Tab = createMaterialTopTabNavigator();
-const FirstPage =()=>{
-return(
-  <View style={styles.container}>
-    <Text>
-    Ecran 1 
+function ListStudentsInClass (){
+  
 
-    </Text>
-  </View>
-)
-}
+  const [students, setStudents] = React.useState([]);
+  
+
+
+
+
+  
+  
+  
+
+  return(
+   <ScrollView>
+      <View >
+        
+        {
+          
+         students.map((students, index) => (
+            <ListItem key={index} bottomDivider>
+              <ListItem.Content>
+                <ListItem.Title>{students.name}</ListItem.Title>
+               
+               <ListItem.Subtitle>{students.Status}</ListItem.Subtitle>
+                 <View >
+                <Feather
+                          name="eye-off"
+                          color="grey"
+                          size={20}
+                          onPress={()=>editUser(index)}
+                      /></View>
+              </ListItem.Content>
+            </ListItem>
+          )) 
+        }
+      </View>
+      </ScrollView>
+  )
+  }
 const SecondPage =()=>{
+  
   return(
     <View style={styles.container}>
     <Text>
-    Ecran 2
+    Screen 2
 
     </Text>
   </View>
@@ -36,24 +67,20 @@ const SecondPage =()=>{
     </View>
     )
     }
+
+
+
   class StudentListScreen extends Component  {
     constructor(){
       super();
-      
-      // this.database=this.app.database().ref("Students")
-      firebase.database().ref('Students').on('value',snap=>{
-        this.state ={
-      students:snap.val()
-    }
-  }) 
-    }
-    componentDidMount (){
- 
+   
     }
 
+
+
     render(){
+
       return (
-        
         <Tab.Navigator
         initialRouteName="Feed"
         tabBarOptions={{
@@ -61,12 +88,13 @@ const SecondPage =()=>{
           inactiveTintColor: '#F8F8F8',
           style: {
             backgroundColor: '#009387',
+       
           },
           labelStyle: {
             textAlign: 'center',
-            fontSize: 15,
-    margin: 0,
-    padding: 0,
+            fontSize: 16,
+            margin: 0,
+            padding: 0,
           },
           indicatorStyle: {
             borderBottomColor: 'black',
@@ -75,7 +103,7 @@ const SecondPage =()=>{
         }}>
         <Tab.Screen
           name="FirstPage"
-          component={FirstPage}
+          component={ListStudentsInClass}
           options={{
             tabBarLabel: 'Home',
          
@@ -88,11 +116,12 @@ const SecondPage =()=>{
           
           }} />
       </Tab.Navigator>
+     
 
   );
 }}
 
-export default StudentListScreen 
+  export default StudentListScreen 
 
 // {/* {this.state.students[0].name} */}
 const styles = StyleSheet.create({
@@ -102,6 +131,68 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  header: {
+      flex: 1,
+      justifyContent: 'flex-end',
+      paddingHorizontal: 20,
+      paddingBottom: 50
+  },
+  footer: {
+      flex: 3,
+      backgroundColor: '#fff',
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+      paddingHorizontal: 20,
+      paddingVertical: 30
+  },
+  text_header: {
+      color: '#fff',
+      fontWeight: 'bold',
+      fontSize: 30
+  },
+  text_footer: {
+      color: '#05375a',
+      fontSize: 18
+  },
+  action: {
+      flexDirection: 'row',
+      marginTop: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: '#f2f2f2',
+      paddingBottom: 5
+  },
+  actionError: {
+      flexDirection: 'row',
+      marginTop: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: '#FF0000',
+      paddingBottom: 5
+  },
+  textInput: {
+      flex: 1,
+      marginTop: Platform.OS === 'ios' ? 0 : -12,
+      paddingLeft: 10,
+      color: '#05375a',
+  },
+  errorMsg: {
+      color: '#FF0000',
+      fontSize: 14,
+  },
+  button: {
+      alignItems: 'center',
+      marginTop: 50
+  },
+  signIn: {
+      width: '100%',
+      height: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 10
+  },
+  textSign: {
+      fontSize: 18,
+      fontWeight: 'bold'
+  }
 });
   //  {/* {this.state.students.filter(student => student.isGoing===false).map(filteredPerson => (
   //         <Text>
