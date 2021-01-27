@@ -11,11 +11,27 @@ function ListStudentsInClass (){
 
   const [students, setStudents] = React.useState([]);
   
-
-
-
-
+  React.useEffect(() => {
+    const userRef = firebase.database().ref('/Students');
+    const OnLoadingListener = userRef.on('value', (snapshot) => {
+      setStudents([]);
+      snapshot.forEach(function (childSnapshot) {
+        setStudents((students) => [...students, childSnapshot.val()]);
+      });
+    });
   
+    const childChangedListener = userRef.on('child_changed', (snapshot) => {
+      // Set Your Functioanlity Whatever you want.
+   
+      alert('Child Updated/Changed');
+    });
+  
+    return () => {
+      userRef.off('value', OnLoadingListener);
+      userRef.off('child_removed', childRemovedListener);
+      userRef.off('child_changed', childChangedListener);
+    };
+  }, []);
   
   
 
