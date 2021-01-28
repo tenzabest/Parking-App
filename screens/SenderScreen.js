@@ -15,20 +15,12 @@ const Tab = createBottomTabNavigator();
 class SenderScreen extends Component {
   constructor(props){
     super(props);
-     this.state={value:''};
-     this.getData=this.getData.bind(this);
    }
-  getData(val){
-   this.setState({
-     value:val
-   });     
 
-   }
 render(){
 
     return (
     
-    <NavigationContainer>
         <Tab.Navigator
         initialRouteName="Students"
         tabBarOptions={{
@@ -37,7 +29,7 @@ render(){
       >
         <Tab.Screen
             name="Students"
-            children={()=><StudentsListScreen dataFromParent={this.state.value}></StudentsListScreen>}
+            component={StudentsListScreen}
             options={{
             tabBarLabel: 'Updates',
             tabBarIcon: ({ color, size }) => (
@@ -47,7 +39,7 @@ render(){
         />  
         <Tab.Screen
             name="Scanner"
-            children={()=><ScannerScreen sendData={this.getData}></ScannerScreen>}
+            component={ScannerScreen}
             options={{
             tabBarLabel: 'Scanner',
             tabBarIcon: ({ color, size }) => (
@@ -66,7 +58,6 @@ render(){
           }}
         />
       </Tab.Navigator>
-      </NavigationContainer>
     );
         }
 }
