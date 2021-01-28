@@ -14,6 +14,7 @@ export const SignInUser = (email, passswod) => {
         });
     });
   };
+  
   export const updateStudent = (dataScanned) => {
     return new Promise(function(resolve, reject) {
       firebase.database().ref('Students').on('value', (snapshot) =>{
