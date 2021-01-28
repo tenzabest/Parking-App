@@ -6,22 +6,17 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Feather from 'react-native-vector-icons/Feather';
 
 const Tab = createMaterialTopTabNavigator();
-function ListStudentsInClass (){
+function ListStudentsInClass (props){
   
 
   const [students, setStudents] = React.useState([]);
-  
+
   const editUser = (index) => {
    
    
-    let dataToSave = {
-
-  Status: "Couloir"
-
-};
 firebase.database()
 .ref('Students/' + index)
-.update(dataToSave)
+.update({Status: "Couloir"})
 
 }
   React.useEffect(() => {
@@ -32,16 +27,17 @@ firebase.database()
         setStudents((students) => [...students, childSnapshot.val()]);
       });
     });
-  
+
     const childChangedListener = userRef.on('child_changed', (snapshot) => {
       // Set Your Functioanlity Whatever you want.
-   
+      
       alert('Child Updated');
     });
   
     return () => {
       userRef.off('value', OnLoadingListener);
       userRef.off('child_changed', childChangedListener);
+
     };
   }, []);
   
@@ -50,21 +46,20 @@ firebase.database()
   return(
    <ScrollView>
       <View >
-        
         {
-          
-         students.filter(students=>students.Status==="En classe").map((students, index) => (
-            <ListItem key={index} bottomDivider>
+        
+         students.filter(students=>students.Status===props.value).map((students, index) => (
+            <ListItem key={students.id} bottomDivider>
               <ListItem.Content>
                 <ListItem.Title>{students.name}</ListItem.Title>
                
                <ListItem.Subtitle>{students.Status}</ListItem.Subtitle>
                  <View >
                 <Feather
-                          name="eye-off"
+                          name="corner-up-right"
                           color="grey"
                           size={20}
-                          onPress={()=>editUser(index)}
+                          onPress={()=> editUser(students.id)}
                       /></View>
               </ListItem.Content>
             </ListItem>
@@ -99,12 +94,11 @@ const SecondPage =()=>{
 
 
   class StudentListScreen extends Component  {
-    constructor(){
-      super();
-   
+    constructor(props){
+      super(props);
+      this.state={
+      }
     }
-
-
 
     render(){
 
@@ -131,16 +125,16 @@ const SecondPage =()=>{
         }}>
         <Tab.Screen
           name="FirstPage"
-          component={ListStudentsInClass}
+          children={()=><ListStudentsInClass value ="En classe"  ></ListStudentsInClass>}
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'Classe',
          
           }}  />
         <Tab.Screen
           name="SecondPage"
-          component={SecondPage}
+          children={()=><ListStudentsInClass value ="Couloir"></ListStudentsInClass>}
           options={{
-            tabBarLabel: 'Setting',
+            tabBarLabel: 'Couloir',
           
           }} />
       </Tab.Navigator>
