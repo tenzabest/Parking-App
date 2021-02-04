@@ -63,7 +63,7 @@ firebase.database()
                       /></View>
               </ListItem.Content>
             </ListItem>
-          )) 
+          ))
         }
       </View>
       </ScrollView>

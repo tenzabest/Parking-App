@@ -10,15 +10,15 @@ import {
     Alert
 } from 'react-native';
 
-// import { NavigationContainer } from '@react-navigation/native';
-
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import {firebase} from "../Setup"
 import {SignInUser} from "../firebaseService"
+import { NavigationContainer } from '@react-navigation/native';
 
 class SignInScreen extends Component  {
+
     constructor(props){
         super(props);
         this.state={
@@ -26,107 +26,102 @@ class SignInScreen extends Component  {
             password : "",
             user : "", 
         }
-        
     }
            
     componentDidMount() {
         const subscriber=firebase.auth().onAuthStateChanged(user => {
-           
-                this.state.user =user   
-                    
-             
-           
-             // Do other things
-           });
+            this.state.user = user   
+        });
             
-         return subscriber
+        return subscriber
     }
      
-  render(){
-    const signIn = () => {
-        SignInUser(this.state.emailAddress, this.state.password)
-          .then((data) => {
-            alert(data);
-          })
-          .catch((error) => {
-            alert("Nom de compte ou mot de passe incorrect!");
-          });
-      };
+    render(){
+
+        const signIn = () => {
+            SignInUser(this.state.emailAddress, this.state.password)
+                .then((data) => {
+                    this.props.navigation.navigate('SenderScreen', { screen : 'Students' });
+                    //alert(data);
+                })
+                .catch((error) => {
+                    alert("Nom de compte ou mot de passe incorrect!");
+                }
+            ); 
+        };
     
-    return (
-        <View style={styles.container}>
-                <StatusBar backgroundColor='#009387' barStyle="light-content"/>
-            <View style={styles.header}>
-                <Text style={styles.text_header}>Welcome !</Text>
-            </View>
-            <View style={styles.footer}>
-                <Text style={styles.text_footer}>Email</Text>
+        return (
+            <View style={styles.container}>
+                    <StatusBar backgroundColor='#009387' barStyle="light-content"/>
+                <View style={styles.header}>
+                    <Text style={styles.text_header}>Welcome !</Text>
+                </View>
+                <View style={styles.footer}>
+                    <Text style={styles.text_footer}>Email</Text>
+                    <View style={styles.action}>
+                    <FontAwesome 
+                        name="user-o"
+                        color="#05375a"
+                        size={20}
+                    />
+                    <TextInput 
+                        placeholder="Your Username"
+                        style={styles.textInput}
+                        autoCapitalize="none"
+                        value={this.state.emailAddress}
+                        onChangeText={text=>this.setState({...this.state,emailAddress:text})}
+                    />
+                    <Feather 
+                        name="check-circle"
+                        color="green"
+                        size={20}
+                        />
+                    </View>
+                    <Text style={[styles.text_footer, {
+                            marginTop: 35
+                            }]}>
+                            Password</Text>
                 <View style={styles.action}>
-                <FontAwesome 
-                    name="user-o"
-                    color="#05375a"
-                    size={20}
-                />
-                <TextInput 
-                    placeholder="Your Username"
-                    style={styles.textInput}
-                    autoCapitalize="none"
-                    value={this.state.emailAddress}
-                    onChangeText={text=>this.setState({...this.state,emailAddress:text})}
+                    <Feather 
+                        name="lock"
+                        color="#05375a"
+                        size={20}
+                    />
+                    <TextInput 
+                        placeholder="Your Password"                 
+                        autoCapitalize="none"
+                        style={styles.textInput}
+                        secureTextEntry={true}
+                        value={this.state.password}
+                        onChangeText={text=>this.setState({...this.state,password:text})}
 
 
-                />
-                <Feather 
-                    name="check-circle"
-                    color="green"
-                    size={20}
+                    />
+                    <Feather
+                        name="eye-off"
+                        color="grey"
+                        size={20}
                     />
                 </View>
-                <Text style={[styles.text_footer, {
-                         marginTop: 35
-                        }]}>
-                        Password</Text>
-            <View style={styles.action}>
-                <Feather 
-                    name="lock"
-                    color="#05375a"
-                    size={20}
-                />
-                <TextInput 
-                    placeholder="Your Password"                 
-                    autoCapitalize="none"
-                    style={styles.textInput}
-                    secureTextEntry={true}
-                    value={this.state.password}
-                    onChangeText={text=>this.setState({...this.state,password:text})}
-
-
-                />
-                <Feather
-                    name="eye-off"
-                    color="grey"
-                    size={20}
-                />
-            </View>
-            <View style={styles.button}>
-          
-            <LinearGradient
-                    colors={['#08d4c4', '#01ab9d']}
-                    style={styles.signIn}
-                >
-                    <TouchableOpacity                   
-                        onPress={signIn}
+                <View style={styles.button}>
+            
+                <LinearGradient
+                        colors={['#08d4c4', '#01ab9d']}
+                        style={styles.signIn}
                     >
-                        <Text style={[styles.textSign, {
-                            color:'#fff'
-                            }]}>Sign In</Text>
-                    </TouchableOpacity>
-            </LinearGradient>
+                        <TouchableOpacity                   
+                            onPress= {signIn}
+                        >
+                            <Text style={[styles.textSign, {
+                                color:'#fff'
+                                }]}>Sign In</Text>
+                        </TouchableOpacity>
+                </LinearGradient>
+                </View>
             </View>
-        </View>
-    </View>
-      );
-                        }
+            </View>
+            );
+        }
     };
   
   export default SignInScreen;

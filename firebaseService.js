@@ -33,7 +33,5 @@ export const SignInUser = (email, passswod) => {
      }
 
     })
-    
-     
     });
   };

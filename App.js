@@ -1,23 +1,61 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import SignInScreen from "./screens/SignInScreen"
 import SenderScreen from "./screens/SenderScreen"
-import DrawerLayout from 'react-native-gesture-handler/DrawerLayout';
+import { NavigationContainer } from '@react-navigation/native';
+import { firebase } from './Setup';
+
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
+
+
 
 export default function App() {
- 
+  const signed = firebase.auth().currentUser;
+
   return (
+    <NavigationContainer>
+      {/* <Stack.Navigator>
+          
+            <Stack.Screen
+              name="SignIn"
+              component={SignInScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+         
+            <Stack.Screen 
+              name="SenderScreen" 
+              component={SenderScreen}  
+              options={{
+                title: 'Gestion de sortie',
+                headerShown: false
+              }}
+            />
+          
+        </Stack.Navigator> */}
 
-      <SignInScreen/>
+        { ( signed !== null ) 
+          ? <Stack.Screen 
+              name="SenderScreen" 
+              component={SenderScreen}  
+              options={{
+                title: 'Gestion de sortie',
+                headerShown: false
+              }}
+            />
+          : <Stack.Screen
+              name="SignIn"
+              component={SignInScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+        }
 
-
-    //  <SignInScreen/> 
-    //      <View style={styles.container}>
-
-    //   {/* <Text>Open up App.js to start working on your app!</Text>
-    //   <StatusBar style="auto" /> */}
-    // </View>
+    </NavigationContainer>
   );
 }
 

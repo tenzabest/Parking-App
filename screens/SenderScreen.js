@@ -18,9 +18,7 @@ class SenderScreen extends Component {
    }
 
 render(){
-
     return (
-    
         <Tab.Navigator
         initialRouteName="Students"
         tabBarOptions={{
@@ -31,7 +29,7 @@ render(){
             name="Students"
             component={StudentsListScreen}
             options={{
-            tabBarLabel: 'Updates',
+            tabBarLabel: 'Student List',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="account" color={color} size={size} />
             )
