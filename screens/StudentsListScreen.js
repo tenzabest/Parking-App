@@ -6,14 +6,13 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Feather from 'react-native-vector-icons/Feather';
 
 const Tab = createMaterialTopTabNavigator();
+
 function ListStudentsInClass (props){
-  
 
   const [students, setStudents] = React.useState([]);
 
   const editUser = (index) => {
-   
-   
+    
 firebase.database()
 .ref('Students/' + index)
 .update({Status: "Couloir"})
@@ -31,7 +30,7 @@ firebase.database()
     const childChangedListener = userRef.on('child_changed', (snapshot) => {
       // Set Your Functioanlity Whatever you want.
       
-      alert('Child Updated');
+     // alert('Child Updated');
     });
   
     return () => {
@@ -41,19 +40,25 @@ firebase.database()
     };
   }, []);
   
-  
+  const getClassToDisplay=(c)=>{
+ const classeIsChecked=props.classeChecked;
+      const foundValue=classeIsChecked.find(element => element.classe===c);
+   //  !!foundValue? alert(foundValue.classe+' '+foundValue.isChecked):null;
 
+  return !!foundValue?foundValue.isChecked:false;
+
+  }
+ 
   return(
    <ScrollView>
       <View >
         {
-        
-         students.filter(students=>students.Status===props.value).map((students, index) => (
-            <ListItem key={students.id} bottomDivider>
-              <ListItem.Content>
-                <ListItem.Title>{students.name}</ListItem.Title>
-               
-               <ListItem.Subtitle>{students.Status}</ListItem.Subtitle>
+         students.filter(students=>students.status===props.value && getClassToDisplay(students.class)).map((students, index) => (
+              <ListItem key={students.id} bottomDivider>
+                <ListItem.Content>
+                  <ListItem.Title>{students.name}</ListItem.Title>
+                  <ListItem.Subtitle>{students.number}</ListItem.Subtitle>
+                  <ListItem.Subtitle>{students.class}</ListItem.Subtitle>
                  <View >
                 <Feather
                           name="corner-up-right"
@@ -61,35 +66,14 @@ firebase.database()
                           size={20}
                           onPress={()=> editUser(students.id)}
                       /></View>
-              </ListItem.Content>
-            </ListItem>
-          ))
+                </ListItem.Content>
+              </ListItem>
+          )) 
         }
       </View>
       </ScrollView>
   )
   }
-const SecondPage =()=>{
-  
-  return(
-    <View style={styles.container}>
-    <Text>
-    Screen 2
-
-    </Text>
-  </View>
-  )
-  }
-  const ecranTrois =()=>{
-    return(
-      <View style={styles.container}>
-      <Text>
-      Ecran 3
-  
-      </Text>
-    </View>
-    )
-    }
 
 
 
@@ -97,10 +81,12 @@ const SecondPage =()=>{
     constructor(props){
       super(props);
       this.state={
+        data:this.props.sendingData
       }
     }
 
     render(){
+
 
       return (
         <Tab.Navigator
@@ -125,14 +111,14 @@ const SecondPage =()=>{
         }}>
         <Tab.Screen
           name="FirstPage"
-          children={()=><ListStudentsInClass value ="En classe"  ></ListStudentsInClass>}
+          children={()=><ListStudentsInClass value ="En classe" classeChecked={this.props.sendingData} ></ListStudentsInClass>}
           options={{
             tabBarLabel: 'Classe',
          
           }}  />
         <Tab.Screen
           name="SecondPage"
-          children={()=><ListStudentsInClass value ="Couloir"></ListStudentsInClass>}
+          children={()=><ListStudentsInClass value ="Couloir" classeChecked={this.props.sendingData}></ListStudentsInClass>}
           options={{
             tabBarLabel: 'Couloir',
           
@@ -145,7 +131,6 @@ const SecondPage =()=>{
 
   export default StudentListScreen 
 
-// {/* {this.state.students[0].name} */}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -216,9 +201,3 @@ const styles = StyleSheet.create({
       fontWeight: 'bold'
   }
 });
-  //  {/* {this.state.students.filter(student => student.isGoing===false).map(filteredPerson => (
-  //         <Text>
-  //                  {filteredPerson.name}
-     
-  //         </Text> 
-  //         ))} */}

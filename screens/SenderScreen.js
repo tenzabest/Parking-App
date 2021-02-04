@@ -15,9 +15,17 @@ const Tab = createBottomTabNavigator();
 class SenderScreen extends Component {
   constructor(props){
     super(props);
-   }
+  this.state={classes:[]} 
+  }
+  componentDidMount(){}
+ getClasses=(classes)=>{
+    this.setState({classes:classes})
+ //console.log("coucou")
+}
 
 render(){
+//console.log("ARRAY DANS SENDER SCREEN",this.state.classes) 
+
     return (
         <Tab.Navigator
         initialRouteName="Students"
@@ -27,7 +35,7 @@ render(){
       >
         <Tab.Screen
             name="Students"
-            component={StudentsListScreen}
+            children={()=><StudentsListScreen sendingData={this.state.classes}></StudentsListScreen> }
             options={{
             tabBarLabel: 'Student List',
             tabBarIcon: ({ color, size }) => (
@@ -47,7 +55,7 @@ render(){
         />
         <Tab.Screen
             name="Settings"
-            component={SettingsScreen}
+            children={()=><SettingsScreen parentCallBack={this.getClasses}></SettingsScreen>}
             options={{
             tabBarLabel: 'Settings',
             tabBarIcon: ({ color, size }) => (
