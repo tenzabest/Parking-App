@@ -63,13 +63,36 @@ class SettingsScreen  extends Component {
         .update({status: "En classe"})
       }
      }
-     
+      const  alertReset=()=>{
+        Alert.alert(
+          'Attention !',
+          'Etes-vous sur de vouloir reinitialiser tout les eleves ?',
+          [
+            {
+              text: 'Oui',
+              onPress:  resetAllUsers,
+            },
+            {
+              text: 'Non',
+              onPress: () => console.log('NON'),
+              style: 'cancel'
+            },
+           
+          ],
+          { cancelable: false }
+        )
+      }
       
    
   return (
     
     <View >
-
+     <Header
+  leftComponent={{ icon: 'sync', color: 'black',onPress:alertReset}}
+  centerComponent={{ text: 'Parametres', style: { color: 'black' } }}
+  rightComponent={{ icon: 'logout', color: 'black',onPress:()=>alert("xouxou") }}
+  backgroundColor="white"
+/>
 <View style={styles.title}>
   <Text style={{fontSize:20}}>Filtre par classe</Text>
   </View>
