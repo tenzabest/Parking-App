@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import {
   Alert,
-  Modal,
   StyleSheet,
   Text,
-  TouchableHighlight,
   View
 } from "react-native";import { CheckBox,ListItem } from 'react-native-elements'
-import { ScrollView } from 'react-native-gesture-handler';
+import {Header} from 'react-native-elements';
+import {firebase} from "../Setup"
 
 class SettingsScreen  extends Component {
   constructor(props){
@@ -54,101 +53,71 @@ class SettingsScreen  extends Component {
     this.setState({ modalVisible: visible });
  }
 
-sendingData=()=>{
-
-}
- 
-    
   render(){
     const { modalVisible } = this.state;
+    const resetAllUsers = () => {
 
+        for (let index = 0; index < 11; index++) {
+        firebase.database()
+        .ref('Students/' + index)
+        .update({status: "En classe"})
+      }
+     }
+     
+      
+   
   return (
-    <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-          }} 
-        >  
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <ScrollView>
-              {
+    
+    <View >
+
+<View style={styles.title}>
+  <Text style={{fontSize:20}}>Filtre par classe</Text>
+  </View>
+<View style={styles.container}>
+
+           {
         this.state.classes.map((l, index) => (
-        
+             <View style={styles.item} key={index}>
               <CheckBox 
               checked={l.isChecked}
               title={l.classe}
               onPress={()=>this.updateState(index)}    
-              />
+              /></View>
         ))
+        
       }
-           </ScrollView>
-              <TouchableHighlight
-                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                onPress={() => {
-                  this.setModalVisible(!modalVisible)
-                  ;
-                }}
-              >
-                <Text style={styles.textStyle}>Fermer</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
-     
-        </Modal>
+      
+      </View></View>
 
-        <TouchableHighlight
-          style={styles.openButton}
-          onPress={() => {
-            this.setModalVisible(true);
-          }}
-        >
-          <Text style={styles.textStyle}>Classes</Text>
-        </TouchableHighlight>
-      </View>
   );
 }}
 
 export default SettingsScreen
-
 const styles = StyleSheet.create({
-  centeredView: {
+  container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop:5,
+    alignItems: 'flex-start' 
   },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
+    title:{
+width:"100%",
+height:"30%",
+alignItems:"center",
+justifyContent:"center",
   },
-  openButton: {
-    backgroundColor: "#2196F3",
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
-});
+  item: {
+  width: '40%', 
+  marginHorizontal:18,
+  marginBottom:10
+  }, button: {
+        alignItems: "center",
+        backgroundColor: "#DDDDDD",
+        padding: 10,
+        height:60,
+        width:300,
+        justifyContent:"center",
+        borderRadius: 20,
+      },
+})
