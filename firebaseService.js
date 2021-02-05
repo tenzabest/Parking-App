@@ -21,7 +21,7 @@ export const SignInUser = (email, passswod) => {
        if(snapshot.val()[index].number===dataScanned){
           firebase.database()
         .ref('Students/' + index)
-        .update({Status:"Couloir"})
+        .update({status:"Couloir"})
         .then(snapshot => {
           resolve(snapshot);
         })
