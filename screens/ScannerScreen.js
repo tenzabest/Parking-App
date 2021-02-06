@@ -1,10 +1,10 @@
-import React, {Component } from 'react';
+import React, { Component } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import * as Permissions from 'expo-permissions';
-import {updateStudent} from "../firebaseService"
+import { updateStudent } from "../firebaseService"
 class ScannerScreen extends Component {
- 
+
   state = {
     hasCameraPermission: null,
     scanned: false,
@@ -30,6 +30,7 @@ class ScannerScreen extends Component {
       return <Text>No access to camera</Text>;
     }
     return (
+
       <View style={styles.container}>
 
         <BarCodeScanner
@@ -51,12 +52,12 @@ class ScannerScreen extends Component {
     this.setState({ scanned: true });
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     updateStudent(data)
-    .then((result) => {
-     
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .then((result) => {
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 }
 const styles = StyleSheet.create({
@@ -67,4 +68,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-  export default ScannerScreen
+export default ScannerScreen
