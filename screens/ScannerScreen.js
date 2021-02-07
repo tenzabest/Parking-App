@@ -12,7 +12,6 @@ class ScannerScreen extends Component {
 
   async componentDidMount() {
     this.getPermissionsAsync();
-
   }
 
   getPermissionsAsync = async () => {
