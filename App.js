@@ -16,7 +16,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator>
+      <Stack.Navigator>
           
             <Stack.Screen
               name="SignIn"
@@ -35,9 +35,9 @@ export default function App() {
               }}
             />
           
-        </Stack.Navigator> */}
-
-        { ( signed !== null ) 
+        </Stack.Navigator>
+ 
+        {/* { ( signed !== null ) 
           ? <Stack.Screen 
               name="SenderScreen" 
               component={SenderScreen}  
@@ -53,7 +53,7 @@ export default function App() {
                 headerShown: false,
               }}
             />
-        }
+        } */}
 
     </NavigationContainer>
   );
