@@ -12,29 +12,33 @@ function ListStudentsInClass(props) {
 
   const [students, setStudents] = React.useState([]);
 const [num,setNum]=React.useState("")
-  const editUser = (index) => {
+ 
+
+const addStudent=()=>{
+  let temp=num
+      if(num.length===1){
+   temp="00"+num
+  }else if(num.length===2){
+    temp="0"+num
+  
+  }
+ 
+  updateStudent(temp)
+  .then((result) => {
+
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+     setNum("")
+    }
+const editUser = (index) => {
     firebase.database()
       .ref('Students/' + index)
       .update({ status: "Couloir" })
 
   }
-  const addStudent=()=>{
-let temp=num
-    if(num.length===1){
- temp="00"+num
-}else if(num.length===2){
-  temp="0"+num
 
-}
-    updateStudent(temp)
-     .then((result) => {
-
-     })
-     .catch((error) => {
-      console.log(error);
-   });
-   setNum("")
-  }
   React.useEffect(() => {
     const userRef = firebase.database().ref('/Students');
     const OnLoadingListener = userRef.on('value', (snapshot) => {
@@ -81,7 +85,7 @@ let temp=num
     onChangeText={text => setNum(text)}
     keyboardType="numeric"
 /> 
-<Button title="Ajouter" onPress={addStudent}></Button>
+<Button title="Ajouter" onPress={()=>addStudent()}></Button>
 </View>
      : null}
  <View>

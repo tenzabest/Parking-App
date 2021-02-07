@@ -3,14 +3,20 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import SignInScreen from "./screens/SignInScreen"
 import SenderScreen from "./screens/SenderScreen"
+import SettingsScreen from "./screens/SettingsScreen"
 import DrawerLayout from 'react-native-gesture-handler/DrawerLayout';
+import StudentsListScreen from "./screens/StudentsListScreen"
+import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
+const Tab = createMaterialTopTabNavigator();
 
 export default function App() {
- 
+
   return (
-
-      <SenderScreen  />
-
+    <NavigationContainer>
+      <SenderScreen />
+    </NavigationContainer>
 
     //  <SignInScreen/> 
     //      <View style={styles.container}>

@@ -33,9 +33,6 @@ class SignInScreen extends Component {
         const subscriber = firebase.auth().onAuthStateChanged(user => {
 
             this.state.user = user
-
-
-
             // Do other things
         });
 

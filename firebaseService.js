@@ -18,6 +18,7 @@ export const updateStudent = (data) => {
   return new Promise(function (resolve, reject) {
     firebase.database().ref('Students').on('value', (snapshot) => {
       for (let index = 0; index < Object.keys(snapshot.val()).length; index++) {
+      //console.log("da :" , data)
         if (snapshot.val()[index].number === data) {
           firebase.database()
             .ref('Students/' + index)
