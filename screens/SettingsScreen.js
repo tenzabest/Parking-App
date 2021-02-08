@@ -1,154 +1,190 @@
 import React, { Component } from 'react';
 import {
   Alert,
-  Modal,
   StyleSheet,
   Text,
-  TouchableHighlight,
-  View
-} from "react-native";import { CheckBox,ListItem } from 'react-native-elements'
-import { ScrollView } from 'react-native-gesture-handler';
+  View, TextInput, Button, Keyboard, TouchableWithoutFeedback
+} from "react-native"; import { CheckBox, ListItem } from 'react-native-elements'
+import { Header } from 'react-native-elements';
+import { firebase } from "../Setup"
+import { updateStudent } from "../firebaseService"
 
-class SettingsScreen  extends Component {
-  constructor(props){
+class SettingsScreen extends Component {
+  constructor(props) {
     super(props)
     this.state = {
-      classes : [
-      { classe:"701",isChecked: false},
-      { classe:"702",isChecked: false},
-      { classe:"101",isChecked: false},
-      { classe:"102",isChecked: false},
-      { classe:"201",isChecked: false},
-      { classe:"202",isChecked: false},
-      { classe:"301",isChecked: false},
-      { classe:"302",isChecked: false},
-      { classe:"401",isChecked: false},
-      { classe:"402",isChecked: false},
-      { classe:"501",isChecked: false},
-      { classe:"502",isChecked: false}, 
-      { classe:"601",isChecked: false},
-      { classe:"602",isChecked: false},
-    ], 
-    modalVisible: false,
+      classes: [
+        { classe: "701", isChecked: false },
+        { classe: "702", isChecked: false },
+        { classe: "101", isChecked: false },
+        { classe: "102", isChecked: false },
+        { classe: "201", isChecked: false },
+        { classe: "202", isChecked: false },
+        { classe: "301", isChecked: false },
+        { classe: "302", isChecked: false },
+        { classe: "401", isChecked: false },
+        { classe: "402", isChecked: false },
+        { classe: "501", isChecked: false },
+        { classe: "502", isChecked: false },
+        { classe: "601", isChecked: false },
+        { classe: "602", isChecked: false },
+      ],
+      numero: ""
     }
-    
+
   }
-  componentDidMount(){
-   // this.props.parentCallBack(this.state.classes)
+  componentDidMount() {
+
   }
 
-  updateState  (index){
-    let classes=this.state.classes;
-      if(classes[index].isChecked===true){
-        classes[index].isChecked=false
-      }else{
-        classes[index].isChecked=true
+  updateState(index) {
+    let classes = this.state.classes;
+    if (classes[index].isChecked === true) {
+      classes[index].isChecked = false
+    } else {
+      classes[index].isChecked = true
+    }
+    this.setState({ classes: classes })
+    this.props.parentCallBack(this.state.classes)
+
+
+  }
+
+
+
+  render() {
+
+    const addStudent = () => {
+      let temp = this.state.numero
+      if (this.state.numero.length === 1) {
+        temp = "00" + this.state.numero
+      } else if (this.state.numero.length === 2) {
+        temp = "0" + this.state.numero
+
       }
-         this.setState({classes:classes })
-         this.props.parentCallBack(this.state.classes)
- 
+      updateStudent(temp)
+        .then((result) => {
 
-  }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
-  setModalVisible = (visible) => {
-    this.setState({ modalVisible: visible });
- }
 
-sendingData=()=>{
+      this.setState({ numero: "" })
+    }
+    const resetAllUsers = () => {
 
-}
- 
-    
-  render(){
-    const { modalVisible } = this.state;
-
-  return (
-    <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-          }} 
-        >  
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <ScrollView>
-              {
-        this.state.classes.map((l, index) => (
-        
-              <CheckBox 
-              checked={l.isChecked}
-              title={l.classe}
-              onPress={()=>this.updateState(index)}    
-              />
-        ))
+      for (let index = 0; index < 11; index++) {
+        firebase.database()
+          .ref('Students/' + index)
+          .update({ status: "En classe" })
       }
-           </ScrollView>
-              <TouchableHighlight
-                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                onPress={() => {
-                  this.setModalVisible(!modalVisible)
-                  ;
-                }}
-              >
-                <Text style={styles.textStyle}>Fermer</Text>
-              </TouchableHighlight>
-            </View>
+    }
+    const alertReset = () => {
+      Alert.alert(
+        'Attention !',
+        'Etes-vous sur de vouloir reinitialiser tout les eleves ?',
+        [
+          {
+            text: 'Oui',
+            onPress: resetAllUsers,
+          },
+          {
+            text: 'Non',
+            onPress: () => console.log('NON'),
+            style: 'cancel'
+          },
+
+        ],
+        { cancelable: false }
+      )
+    }
+
+
+    return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+
+        <View >
+          <Header
+            leftComponent={{ icon: 'sync', color: 'black', onPress: alertReset }}
+            centerComponent={{ text: 'Parametres', style: { color: 'black' } }}
+            rightComponent={{ icon: 'logout', color: 'black', onPress: () => alert("xouxou") }}
+            backgroundColor="white"
+          />
+
+          <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center", marginBottom: 15, marginTop: 15, marginLeft: 15 }}>
+            <TextInput
+              placeholder="Ajouter un élève"
+              style={styles.textInput}
+              autoCapitalize="none"
+              value={this.state.numero}
+              onChangeText={text => this.setState({ numero: text })}
+              keyboardType="numeric"
+            />
+            <Button title="Ajouter" onPress={addStudent}></Button>
           </View>
-     
-        </Modal>
+          {/* <View style={styles.title}>
+          <Text style={{ fontSize: 20 }}>Filtre par classe</Text>
+        </View> */}
+          <View style={styles.container}>
 
-        <TouchableHighlight
-          style={styles.openButton}
-          onPress={() => {
-            this.setModalVisible(true);
-          }}
-        >
-          <Text style={styles.textStyle}>Classes</Text>
-        </TouchableHighlight>
-      </View>
-  );
-}}
+            {
+              this.state.classes.map((l, index) => (
+                <View style={styles.item} key={index}>
+                  <CheckBox
+                    checked={l.isChecked}
+                    title={l.classe}
+                    onPress={() => this.updateState(index)}
+                  /></View>
+              ))
+
+            }
+
+          </View></View>
+      </TouchableWithoutFeedback>
+    );
+  }
+}
 
 export default SettingsScreen
-
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
+  container: {
+    // /flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 5,
+    alignItems: 'flex-start'
+  },
+  title: {
+    width: "100%",
+    height: "18%",
+    alignItems: "center",
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-  },
-  modalView: {
-    margin: 20,
+    //backgroundColor:"grey"
+  }, textInput: {
+    // flex: 1,
+    marginTop: Platform.OS === 'ios' ? 0 : -12,
+    // paddingLeft:
+    color: '#05375a',
+    borderRadius: 5,
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    borderWidth: 1,
+    width: "70%",
+    height: 40,
+
+  },
+  item: {
+    width: '40%',
+    marginHorizontal: 18,
+    marginBottom: 6
+  }, button: {
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
-  },
-  openButton: {
-    backgroundColor: "#2196F3",
-    borderRadius: 20,
+    backgroundColor: "#DDDDDD",
     padding: 10,
-    elevation: 2
+    height: 60,
+    width: 300,
+    justifyContent: "center",
+    borderRadius: 20,
   },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
-});
+})

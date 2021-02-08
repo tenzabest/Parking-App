@@ -1,11 +1,11 @@
-import React,{Component} from 'react';
-import { 
-    View, 
-    Text, 
-    TouchableOpacity, 
+import React, { Component } from 'react';
+import {
+    View,
+    Text,
+    TouchableOpacity,
     TextInput,
     Platform,
-    StyleSheet ,
+    StyleSheet,
     StatusBar,
     Alert
 } from 'react-native';
@@ -23,13 +23,13 @@ class SignInScreen extends Component  {
 
     constructor(props){
         super(props);
-        this.state={
-            emailAddress : "",
-            password : "",
-            user : "", 
+        this.state = {
+            emailAddress: "",
+            password: "",
+            user: "",
         }
     }
-           
+
     componentDidMount() {
         const subscriber = firebase.auth().onAuthStateChanged(user => {
             this.state.user = user
@@ -135,8 +135,8 @@ class SignInScreen extends Component  {
   
   const styles = StyleSheet.create({
     container: {
-      flex: 1, 
-      backgroundColor: '#009387'
+        flex: 1,
+        backgroundColor: '#009387'
     },
     header: {
         flex: 1,
@@ -200,4 +200,4 @@ class SignInScreen extends Component  {
         fontSize: 18,
         fontWeight: 'bold'
     }
-  });
+});
