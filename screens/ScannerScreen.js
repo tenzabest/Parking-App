@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import * as Permissions from 'expo-permissions';
 import { updateStudent } from "../firebaseService"
+
 class ScannerScreen extends Component {
 
   state = {
@@ -50,7 +51,14 @@ class ScannerScreen extends Component {
   handleBarCodeScanned = ({ type, data }) => {
     this.setState({ scanned: true });
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    updateStudent(data)
+    let temp = data
+    if (data.length === 1) {
+      temp = "00" + data
+    } else if (data.length === 2) {
+      temp = "0" + data
+
+    }
+    updateStudent(temp)
       .then((result) => {
 
       })
