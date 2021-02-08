@@ -16,6 +16,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import {firebase} from "../Setup"
 import {SignInUser} from "../firebaseService"
 import { NavigationContainer } from '@react-navigation/native';
+import * as SecureStore from 'expo-secure-store';
+
 
 class SignInScreen extends Component  {
 
@@ -29,20 +31,25 @@ class SignInScreen extends Component  {
     }
            
     componentDidMount() {
-        const subscriber=firebase.auth().onAuthStateChanged(user => {
-            this.state.user = user   
+        const subscriber = firebase.auth().onAuthStateChanged(user => {
+            this.state.user = user
         });
             
         return subscriber
     }
      
     render(){
-
         const signIn = () => {
             SignInUser(this.state.emailAddress, this.state.password)
                 .then((data) => {
+                    SecureStore.setItemAsync("user", this.state.emailAddress);
+                    SecureStore.setItemAsync("pass", this.state.password);
+
+                    console.log("SignIn Mail: " + this.state.emailAddress);
+                    console.log("SignIn Pass: " + this.state.password);
+                    console.log(SecureStore.getItemAsync("user"));
+
                     this.props.navigation.navigate('SenderScreen', { screen : 'Students' });
-                    //alert(data);
                 })
                 .catch((error) => {
                     alert("Nom de compte ou mot de passe incorrect!");
