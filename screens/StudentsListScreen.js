@@ -1,38 +1,17 @@
 import React, { Component } from 'react';
-import { Text, View, Button, StyleSheet, ScrollView,TextInput,Keyboard,TouchableWithoutFeedback } from 'react-native';
+import { Text, View, Button, StyleSheet, ScrollView, } from 'react-native';
 import { firebase } from "../Setup"
 import { ListItem, Header } from 'react-native-elements'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Feather from 'react-native-vector-icons/Feather';
-import { updateStudent } from "../firebaseService"
 
 const Tab = createMaterialTopTabNavigator();
 
 function ListStudentsInClass(props) {
 
   const [students, setStudents] = React.useState([]);
-const [num,setNum]=React.useState("")
- 
 
-const addStudent=()=>{
-  let temp=num
-      if(num.length===1){
-   temp="00"+num
-  }else if(num.length===2){
-    temp="0"+num
-  
-  }
- 
-  updateStudent(temp)
-  .then((result) => {
-
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-     setNum("")
-    }
-const editUser = (index) => {
+  const editUser = (index) => {
     firebase.database()
       .ref('Students/' + index)
       .update({ status: "Couloir" })
@@ -61,59 +40,43 @@ const editUser = (index) => {
     };
   }, []);
 
-  const getClassToDisplay = (c) => {
+  const getClassToDisplay = (studentClasse) => {
     const classeIsChecked = props.classeChecked;
-    const foundValue = classeIsChecked.find(element => element.classe === c);
+    const foundValue = classeIsChecked.find(element => element.classe === studentClasse);
     //  !!foundValue? alert(foundValue.classe+' '+foundValue.isChecked):null;
 
     return !!foundValue ? foundValue.isChecked : false;
 
   }
-  
+
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.container}>
-     {props.value==="En classe"?
-     
-     <View style={{flexDirection:"row",justifyContent:"center",marginBottom:15,marginTop:15}}>
-      <TextInput
-    placeholder="Number"
-    style={styles.textInput}
-    autoCapitalize="none"
-    value={num}
-    onChangeText={text => setNum(text)}
-    keyboardType="numeric"
-/> 
-<Button title="Ajouter" onPress={()=>addStudent()}></Button>
-</View>
-     : null}
- <View>
+
     <ScrollView>
       <View >
         {
-          students.filter(students => students.status === props.value && students.class === "201").map((students, index) => (
-            <ListItem key={students.id} bottomDivider>
+          students.filter(student => student.status === props.value && getClassToDisplay(student.class)).map((student, index) => (
+            <ListItem key={student.id} bottomDivider>
 
               <ListItem.Content>
 
-                <ListItem.Title >{students.name}
+                <ListItem.Title >{student.name}
                 </ListItem.Title>
 
                 <View style={{ flexDirection: "row" }}>
-                <ListItem.Subtitle style={{ fontWeight: 'bold' }}>{students.class}</ListItem.Subtitle> 
-                 {students.status === "En classe" ?
+                  <ListItem.Subtitle style={{ fontWeight: 'bold' }}>{student.class}</ListItem.Subtitle>
+                  {student.status === "En classe" ?
                     <View style={{ marginLeft: "80%" }}>
 
                       <Feather
                         name="corner-up-right"
                         color="black"
                         size={20}
-                        onPress={() => editUser(students.id)}
+                        onPress={() => editUser(student.id)}
 
                       /></View> : null}
                 </View>
-                <ListItem.Subtitle style={{ fontSize: 12  }}>{students.number} </ListItem.Subtitle>
+                <ListItem.Subtitle style={{ fontSize: 12 }}>{student.number} </ListItem.Subtitle>
 
 
               </ListItem.Content>
@@ -122,9 +85,8 @@ const editUser = (index) => {
         }
       </View>
     </ScrollView>
-    </View> 
-  </View>
-        </TouchableWithoutFeedback>
+
+
   )
 }
 
@@ -196,15 +158,15 @@ const styles = StyleSheet.create({
     //backgroundColor: '#fff',
     //  alignItems: 'center',
     // justifyContent: 'center',
-   // marginTop:"3%",
+    // marginTop:"3%",
 
   },
   header: {
     flex: 1,
     justifyContent: 'center',
     // paddingHorizontal: 10,
-   //paddingTop: 50,
-  backgroundColor:"red"
+    //paddingTop: 50,
+    backgroundColor: "red"
   },
   footer: {
     flex: 3,
@@ -213,7 +175,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 60,
- 
+
   },
   text_header: {
     color: '#fff',
@@ -243,12 +205,12 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 0 : -12,
     // paddingLeft:
     color: '#05375a',
-    borderRadius:5,
-     backgroundColor:"white",
-    borderWidth:1,
-    width:"70%",
-    height:40,
-    
+    borderRadius: 5,
+    backgroundColor: "white",
+    borderWidth: 1,
+    width: "70%",
+    height: 40,
+
   },
   errorMsg: {
     color: '#FF0000',

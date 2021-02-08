@@ -3,10 +3,11 @@ import {
   Alert,
   StyleSheet,
   Text,
-  View
+  View, TextInput, Button, Keyboard, TouchableWithoutFeedback
 } from "react-native"; import { CheckBox, ListItem } from 'react-native-elements'
 import { Header } from 'react-native-elements';
 import { firebase } from "../Setup"
+import { updateStudent } from "../firebaseService"
 
 class SettingsScreen extends Component {
   constructor(props) {
@@ -28,12 +29,12 @@ class SettingsScreen extends Component {
         { classe: "601", isChecked: false },
         { classe: "602", isChecked: false },
       ],
-      modalVisible: false,
+      numero: ""
     }
 
   }
   componentDidMount() {
-    // this.props.parentCallBack(this.state.classes)
+
   }
 
   updateState(index) {
@@ -49,12 +50,29 @@ class SettingsScreen extends Component {
 
   }
 
-  setModalVisible = (visible) => {
-    this.setState({ modalVisible: visible });
-  }
+
 
   render() {
-    const { modalVisible } = this.state;
+
+    const addStudent = () => {
+      let temp = this.state.numero
+      if (this.state.numero.length === 1) {
+        temp = "00" + this.state.numero
+      } else if (this.state.numero.length === 2) {
+        temp = "0" + this.state.numero
+
+      }
+      updateStudent(temp)
+        .then((result) => {
+
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+
+      this.setState({ numero: "" })
+    }
     const resetAllUsers = () => {
 
       for (let index = 0; index < 11; index++) {
@@ -85,33 +103,46 @@ class SettingsScreen extends Component {
 
 
     return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 
-      <View >
-        <Header
-          leftComponent={{ icon: 'sync', color: 'black', onPress: alertReset }}
-          centerComponent={{ text: 'Parametres', style: { color: 'black' } }}
-          rightComponent={{ icon: 'logout', color: 'black', onPress: () => alert("xouxou") }}
-          backgroundColor="white"
-        />
-        <View style={styles.title}>
+        <View >
+          <Header
+            leftComponent={{ icon: 'sync', color: 'black', onPress: alertReset }}
+            centerComponent={{ text: 'Parametres', style: { color: 'black' } }}
+            rightComponent={{ icon: 'logout', color: 'black', onPress: () => alert("xouxou") }}
+            backgroundColor="white"
+          />
+
+          <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center", marginBottom: 15, marginTop: 15, marginLeft: 15 }}>
+            <TextInput
+              placeholder="Ajouter un élève"
+              style={styles.textInput}
+              autoCapitalize="none"
+              value={this.state.numero}
+              onChangeText={text => this.setState({ numero: text })}
+              keyboardType="numeric"
+            />
+            <Button title="Ajouter" onPress={addStudent}></Button>
+          </View>
+          {/* <View style={styles.title}>
           <Text style={{ fontSize: 20 }}>Filtre par classe</Text>
-        </View>
-        <View style={styles.container}>
+        </View> */}
+          <View style={styles.container}>
 
-          {
-            this.state.classes.map((l, index) => (
-              <View style={styles.item} key={index}>
-                <CheckBox
-                  checked={l.isChecked}
-                  title={l.classe}
-                  onPress={() => this.updateState(index)}
-                /></View>
-            ))
+            {
+              this.state.classes.map((l, index) => (
+                <View style={styles.item} key={index}>
+                  <CheckBox
+                    checked={l.isChecked}
+                    title={l.classe}
+                    onPress={() => this.updateState(index)}
+                  /></View>
+              ))
 
-          }
+            }
 
-        </View></View>
-
+          </View></View>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -119,7 +150,7 @@ class SettingsScreen extends Component {
 export default SettingsScreen
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // /flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 5,
@@ -127,14 +158,26 @@ const styles = StyleSheet.create({
   },
   title: {
     width: "100%",
-    height: "30%",
+    height: "18%",
     alignItems: "center",
     justifyContent: "center",
+    //backgroundColor:"grey"
+  }, textInput: {
+    // flex: 1,
+    marginTop: Platform.OS === 'ios' ? 0 : -12,
+    // paddingLeft:
+    color: '#05375a',
+    borderRadius: 5,
+    backgroundColor: "white",
+    borderWidth: 1,
+    width: "70%",
+    height: 40,
+
   },
   item: {
     width: '40%',
     marginHorizontal: 18,
-    marginBottom: 10
+    marginBottom: 6
   }, button: {
     alignItems: "center",
     backgroundColor: "#DDDDDD",
