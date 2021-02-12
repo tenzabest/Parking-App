@@ -4,6 +4,7 @@ import { firebase } from "../Setup"
 import { ListItem, Header } from 'react-native-elements'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Feather from 'react-native-vector-icons/Feather';
+import { StatusBar } from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -51,42 +52,42 @@ function ListStudentsInClass(props) {
 
 
   return (
+    <View >
+    <StatusBar backgroundColor="#009387"/>
+      <ScrollView>
+        <View >
+          {
+            students.filter(student => student.status === props.value && getClassToDisplay(student.class)).map((student, index) => (
+              <ListItem key={student.id} bottomDivider>
 
-    <ScrollView>
-      <View >
-        {
-          students.filter(student => student.status === props.value && getClassToDisplay(student.class)).map((student, index) => (
-            <ListItem key={student.id} bottomDivider>
+                <ListItem.Content>
 
-              <ListItem.Content>
+                  <ListItem.Title >{student.name}
+                  </ListItem.Title>
 
-                <ListItem.Title >{student.name}
-                </ListItem.Title>
+                  <View style={{ flexDirection: "row" }}>
+                    <ListItem.Subtitle style={{ fontWeight: 'bold' }}>{student.class}</ListItem.Subtitle>
+                    {student.status === "En classe" ?
+                      <View style={{ marginLeft: "80%" }}>
 
-                <View style={{ flexDirection: "row" }}>
-                  <ListItem.Subtitle style={{ fontWeight: 'bold' }}>{student.class}</ListItem.Subtitle>
-                  {student.status === "En classe" ?
-                    <View style={{ marginLeft: "80%" }}>
+                        <Feather
+                          name="corner-up-right"
+                          color="black"
+                          size={20}
+                          onPress={() => editUser(student.id)}
 
-                      <Feather
-                        name="corner-up-right"
-                        color="black"
-                        size={20}
-                        onPress={() => editUser(student.id)}
-
-                      /></View> : null}
-                </View>
-                <ListItem.Subtitle style={{ fontSize: 12 }}>{student.number} </ListItem.Subtitle>
+                        /></View> : null}
+                  </View>
+                  <ListItem.Subtitle style={{ fontSize: 12 }}>{student.number} </ListItem.Subtitle>
 
 
-              </ListItem.Content>
-            </ListItem>
-          ))
-        }
+                </ListItem.Content>
+              </ListItem>
+            ))
+          }
+        </View>
+      </ScrollView>
       </View>
-    </ScrollView>
-
-
   )
 }
 

@@ -8,8 +8,12 @@ import { firebase } from './Setup';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
+//import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import * as SecureStore from 'expo-secure-store';
 import {SignInUser} from "./firebaseService"
+import SettingsScreen from './screens/SettingsScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -24,49 +28,15 @@ class App extends Component  {
     }
   }
 
-  componentDidMount(){
-    if(this.state.isLoaded === false){
-      if(SecureStore.isAvailableAsync()){
-        SecureStore.getItemAsync('user')
-            .then((email) => {
-                this.setState({signInEmail: email});
-                console.log('SignIn email: ', signInEmail); 
-            })
-            .catch((error) => {
-                console.log('SignIn email error: ', error);
-            });
-  
-        SecureStore.getItemAsync('pass')
-            .then((pass) => {
-              this.setState({signInPassword: pass});
-                console.log('SignIn password: ', signInPassword); 
-            })
-            .catch((error) => {
-                console.log('SignIn password error: ', error);
-            });
-      }
-  
-      this.setState({isLoaded: true});
-    }
-  }
-
-  loadingScreen() {
-    return(
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
-
-  appStack(){
-    return(
+  render(){
+    return (
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
             name="SignIn"
             component={SignInScreen}
             options={{
-              headerShown: false,
+              headerShown: false
             }}
           />
           <Stack.Screen 
@@ -79,35 +49,6 @@ class App extends Component  {
         </Stack.Navigator>
       </NavigationContainer>
     );
-  }
-
-  checkSignIn(){
-    SignInUser(this.state.signInEmail, this.state.signInPassword)
-          .then((data) => {
-            console.log("Success")
-            this.setState({isSigned: true});
-          })
-          .catch((error) => {
-            console.log("No Success: ", error)
-            this.setState({isSigned: false});
-          });
-
-    if(this.state.isSigned){
-      return(
-        <SenderScreen/>
-      );
-    }
-    else{
-      return this.appStack();
-    }
-  }
-
-  render(){
-    if(this.state.isLoaded){
-      return this.checkSignIn();
-    } else{
-      return this.loadingScreen();
-    }
   }
 }
 

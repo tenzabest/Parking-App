@@ -42,13 +42,7 @@ class SignInScreen extends Component  {
         const signIn = () => {
             SignInUser(this.state.emailAddress, this.state.password)
                 .then((data) => {
-                    SecureStore.setItemAsync("user", this.state.emailAddress);
-                    SecureStore.setItemAsync("pass", this.state.password);
-
-                    console.log("SignIn Mail: " + this.state.emailAddress);
-                    console.log("SignIn Pass: " + this.state.password);
-                    console.log(SecureStore.getItemAsync("user"));
-
+                    this.setState({emailAddress:"" , password: "", user: ""})
                     this.props.navigation.navigate('SenderScreen', { screen : 'Students' });
                 })
                 .catch((error) => {
