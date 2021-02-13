@@ -34,7 +34,8 @@ class SettingsScreen extends Component {
 
   }
   componentDidMount() {
-
+    this.props.parentCallBack(this.state.classes)
+  
   }
 
   updateState(index) {
@@ -45,7 +46,8 @@ class SettingsScreen extends Component {
       classes[index].isChecked = true
     }
     this.setState({ classes: classes })
-    this.props.parentCallBack(this.state.classes)
+
+ 
 
 
   }
