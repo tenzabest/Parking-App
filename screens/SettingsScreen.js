@@ -7,27 +7,29 @@ import {
 } from "react-native"; import { CheckBox, ListItem } from 'react-native-elements'
 import { Header } from 'react-native-elements';
 import { firebase } from "../Setup"
-import { updateStudent } from "../firebaseService"
+import { updateStudent, SignOutUser } from "../firebaseService"
+
+import * as SecureStore from 'expo-secure-store';
 
 class SettingsScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
       classes: [
-        { classe: "701", isChecked: false },
-        { classe: "702", isChecked: false },
-        { classe: "101", isChecked: false },
-        { classe: "102", isChecked: false },
-        { classe: "201", isChecked: false },
-        { classe: "202", isChecked: false },
-        { classe: "301", isChecked: false },
-        { classe: "302", isChecked: false },
-        { classe: "401", isChecked: false },
-        { classe: "402", isChecked: false },
-        { classe: "501", isChecked: false },
-        { classe: "502", isChecked: false },
-        { classe: "601", isChecked: false },
-        { classe: "602", isChecked: false },
+        { classe: "701", isChecked: true },
+        { classe: "702", isChecked: true },
+        { classe: "101", isChecked: true },
+        { classe: "102", isChecked: true },
+        { classe: "201", isChecked: true },
+        { classe: "202", isChecked: true },
+        { classe: "301", isChecked: true },
+        { classe: "302", isChecked: true },
+        { classe: "401", isChecked: true },
+        { classe: "402", isChecked: true },
+        { classe: "501", isChecked: true },
+        { classe: "502", isChecked: true },
+        { classe: "601", isChecked: true },
+        { classe: "602", isChecked: true },
       ],
       numero: ""
     }
@@ -46,15 +48,29 @@ class SettingsScreen extends Component {
       classes[index].isChecked = true
     }
     this.setState({ classes: classes })
+<<<<<<< HEAD
 
  
 
 
+=======
+    this.props.parentCallBack(this.state.classes)
+>>>>>>> c59f7228a4c28f9e7b0644a939e85e0347fa83be
   }
 
-
-
   render() {
+
+    const logout = () => {
+        SignOutUser(this.state.emailAddress, this.state.password)
+            .then((data) => {
+              this.props.nav.navigate('SignIn');
+            })
+            .catch((error) => {
+              console.log("An error occured : ", error);
+              alert("An error occured : ", error);
+            }
+        ); 
+    };
 
     const addStudent = () => {
       let temp = this.state.numero
@@ -103,15 +119,15 @@ class SettingsScreen extends Component {
       )
     }
 
-
     return (
+      
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 
         <View >
           <Header
             leftComponent={{ icon: 'sync', color: 'black', onPress: alertReset }}
             centerComponent={{ text: 'Parametres', style: { color: 'black' } }}
-            rightComponent={{ icon: 'logout', color: 'black', onPress: () => alert("xouxou") }}
+            rightComponent={{ icon: 'logout', color: 'black', onPress: logout }}
             backgroundColor="white"
           />
 

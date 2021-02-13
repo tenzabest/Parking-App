@@ -15,7 +15,18 @@ export const SignInUser = (email, passswod) => {
   });
 };
 
-
+export const SignOutUser = () => {
+  return new Promise(function(resolve, reject) {
+    firebase.auth()
+      .signOut()
+      .then(() => {
+        resolve('Sign Out Successfully');
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
 
 export const updateStudent = (dataScanned) => {
   return new Promise(function(resolve, reject) {

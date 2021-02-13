@@ -17,6 +17,7 @@ class SenderScreen extends Component {
     super(props);
     this.state = { classes: [] }
   }
+
   componentDidMount() { }
   getClasses = (classes) => {
     this.setState({ classes: classes })
@@ -24,9 +25,7 @@ class SenderScreen extends Component {
   }
 
   render() {
-
     return (
-
       <Tab.Navigator
         initialRouteName="Students"
         tabBarOptions={{
@@ -55,7 +54,7 @@ class SenderScreen extends Component {
         />
         <Tab.Screen
           name="Settings"
-          children={() => <SettingsScreen parentCallBack={this.getClasses}></SettingsScreen>}
+          children={() => <SettingsScreen nav={this.props.navigation} parentCallBack={this.getClasses} ></SettingsScreen>}
           options={{
             tabBarLabel: 'Settings',
             tabBarIcon: ({ color, size }) => (
