@@ -53,7 +53,7 @@ function ListStudentsInClass(props) {
 
                 <View style={{ flexDirection: "row" }}>
                   <ListItem.Subtitle style={{ fontWeight: 'bold' }}>{student.class}</ListItem.Subtitle>
-                  {student.status === "Partir" ?
+                  {student.status === "Partis" ?
                     <View style={{ marginLeft: "80%" }}>
 
                       <Feather
@@ -125,9 +125,9 @@ class StudentListScreen extends Component {
         />
         <Tab.Screen
           name="SecondList"
-          children={() => <ListStudentsInClass value="Partir" classeChecked={this.props.sendingData}></ListStudentsInClass>}
+          children={() => <ListStudentsInClass value="Partis" classeChecked={this.props.sendingData}></ListStudentsInClass>}
           options={{
-            tabBarLabel: 'Partir',
+            tabBarLabel: 'Partis',
 
           }} />
         <Tab.Screen

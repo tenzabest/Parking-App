@@ -28,13 +28,13 @@ export const SignOutUser = () => {
 };
 
 export const updateStudent = (dataScanned) => {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function (reject) {
     firebase.database().ref('Students').once('value', (snapshot) => {
       for (let index = 0; index < Object.keys(snapshot.val()).length; index++) {
         if (snapshot.val()[index].number === dataScanned) {
           firebase.database()
             .ref('Students/' + index)
-            .update({ status: "Partir" })
+            .update({ status: "Partis" })
             .catch(err => {
               reject(err);
             });

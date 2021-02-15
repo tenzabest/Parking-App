@@ -35,7 +35,7 @@ class SettingsScreen extends Component {
       const jsonValue = JSON.stringify(this.state.classes)
       await AsyncStorage.setItem('classes', jsonValue)
     } catch (e) {
-      // saving error
+      console.log(e)
     }
   }
 
@@ -46,6 +46,7 @@ class SettingsScreen extends Component {
       this.props.parentCallBack(this.state.classes)
 
     } catch (e) {
+      console.log(e)
     }
   }
   componentDidMount() {
