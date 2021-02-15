@@ -59,9 +59,6 @@ class ScannerScreen extends Component {
 
     }
     updateStudent(temp)
-      .then((result) => {
-
-      })
       .catch((error) => {
         console.log(error);
       });
