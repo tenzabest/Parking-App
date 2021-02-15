@@ -21,13 +21,12 @@ class SenderScreen extends Component {
   componentDidMount() { }
   getClasses = (classes) => {
     this.setState({ classes: classes })
-
   }
 
   render() {
     return (
       <Tab.Navigator
-        initialRouteName="Students"
+        initialRouteName="Settings"
         tabBarOptions={{
           activeTintColor: '#e91e63',
         }}
