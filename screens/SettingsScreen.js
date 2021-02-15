@@ -8,8 +8,7 @@ import {
 import { Header } from 'react-native-elements';
 import { firebase } from "../Setup"
 import { updateStudent, SignOutUser } from "../firebaseService"
-
-import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class SettingsScreen extends Component {
   constructor(props) {
@@ -35,9 +34,29 @@ class SettingsScreen extends Component {
     }
 
   }
+  storeData = async () => {
+    console.log("coucou")
+    try {
+      const jsonValue = JSON.stringify(this.state.classes)
+      await AsyncStorage.setItem('classes', jsonValue)
+    } catch (e) {
+      // saving error
+    }
+  }
+
+  getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('classes')
+      this.setState({ classes: JSON.parse(jsonValue) })
+      this.props.parentCallBack(this.state.classes)
+
+    } catch (e) {
+      // error reading value
+    }
+  }
   componentDidMount() {
-    this.props.parentCallBack(this.state.classes)
-  
+    this.getData();
+
   }
 
   updateState(index) {
@@ -48,28 +67,24 @@ class SettingsScreen extends Component {
       classes[index].isChecked = true
     }
     this.setState({ classes: classes })
-<<<<<<< HEAD
 
- 
-
-
-=======
     this.props.parentCallBack(this.state.classes)
->>>>>>> c59f7228a4c28f9e7b0644a939e85e0347fa83be
+
+    this.storeData()
   }
 
   render() {
 
     const logout = () => {
-        SignOutUser(this.state.emailAddress, this.state.password)
-            .then((data) => {
-              this.props.nav.navigate('SignIn');
-            })
-            .catch((error) => {
-              console.log("An error occured : ", error);
-              alert("An error occured : ", error);
-            }
-        ); 
+      SignOutUser(this.state.emailAddress, this.state.password)
+        .then((data) => {
+          this.props.nav.navigate('SignIn');
+        })
+        .catch((error) => {
+          console.log("An error occured : ", error);
+          alert("An error occured : ", error);
+        }
+        );
     };
 
     const addStudent = () => {
@@ -120,7 +135,7 @@ class SettingsScreen extends Component {
     }
 
     return (
-      
+
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 
         <View >

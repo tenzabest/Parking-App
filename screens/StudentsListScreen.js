@@ -1,25 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component,useEffect,useState } from 'react';
 import { Text, View, Button, StyleSheet, ScrollView, } from 'react-native';
 import { firebase } from "../Setup"
 import { ListItem, Header } from 'react-native-elements'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Feather from 'react-native-vector-icons/Feather';
-import { StatusBar } from 'react-native';
-
 const Tab = createMaterialTopTabNavigator();
 
 function ListStudentsInClass(props) {
-
-  const [students, setStudents] = React.useState([]);
-
+  const [students, setStudents] = useState([]);
   const editUser = (index) => {
     firebase.database()
       .ref('Students/' + index)
       .update({ status: "Couloir" })
 
   }
-
-  React.useEffect(() => {
+ useEffect(() => {
     const userRef = firebase.database().ref('/Students');
     const OnLoadingListener = userRef.on('value', (snapshot) => {
       setStudents([]);
@@ -42,28 +37,26 @@ function ListStudentsInClass(props) {
   }, []);
 
   const getClassToDisplay = (studentClasse) => {
-    const classeIsChecked = props.classeChecked;
-    const foundValue = classeIsChecked.find(element => element.classe === studentClasse);
-    //  !!foundValue? alert(foundValue.classe+' '+foundValue.isChecked):null;
-
+    const classChecked = props.classeChecked;
+    const foundValue = classChecked.find(element => element.classe === studentClasse);
     return !!foundValue ? foundValue.isChecked : false;
 
   }
 
 
   return (
-    <View >
-    <StatusBar backgroundColor="#009387"/>
-      <ScrollView>
+    <ScrollView>
+      <View >
+
         <View >
           {
+
             students.filter(student => student.status === props.value && getClassToDisplay(student.class)).map((student, index) => (
               <ListItem key={student.id} bottomDivider>
 
                 <ListItem.Content>
 
-                  <ListItem.Title >{student.name}
-                  </ListItem.Title>
+                  <ListItem.Title >{student.name} </ListItem.Title>
 
                   <View style={{ flexDirection: "row" }}>
                     <ListItem.Subtitle style={{ fontWeight: 'bold' }}>{student.class}</ListItem.Subtitle>
@@ -84,12 +77,14 @@ function ListStudentsInClass(props) {
                 </ListItem.Content>
               </ListItem>
             ))
+
           }
         </View>
-      </ScrollView>
       </View>
+    </ScrollView>
   )
 }
+
 
 
 
@@ -100,6 +95,7 @@ class StudentListScreen extends Component {
       data: this.props.sendingData
     }
   }
+
 
   render() {
 
@@ -114,13 +110,13 @@ class StudentListScreen extends Component {
           inactiveTintColor: '#F8F8F8',
           style: {
             backgroundColor: '#009387',
-            marginTop: 20
+         
 
           },
           labelStyle: {
             textAlign: 'center',
             fontSize: 16,
-            margin: 10,
+            margin: 18,
             padding: 0,
 
           },
@@ -132,11 +128,13 @@ class StudentListScreen extends Component {
 
         <Tab.Screen
           name="FirstPage"
-          children={() => <ListStudentsInClass value="En classe" classeChecked={this.props.sendingData} ></ListStudentsInClass>}
+          children={() => <ListStudentsInClass value="En classe" classeChecked={this.state.data} ></ListStudentsInClass>}
           options={{
             tabBarLabel: 'Classe',
 
-          }} />
+          }}
+
+        />
         <Tab.Screen
           name="SecondPage"
           children={() => <ListStudentsInClass value="Couloir" classeChecked={this.props.sendingData}></ListStudentsInClass>}
