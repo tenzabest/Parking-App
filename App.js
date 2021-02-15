@@ -13,20 +13,23 @@ class App extends Component  {
 
   render(){
     return (
-      <NavigationContainer>
+      <NavigationContainer>       
         <Stack.Navigator>
           <Stack.Screen
             name="SignIn"
             component={SignInScreen}
             options={{
-              headerShown: false
+              headerShown: false,
+               gestureEnabled: false,
+
             }}
           />
           <Stack.Screen 
             name="SenderScreen" 
             component={SenderScreen}  
             options={{
-              headerShown: false
+              headerShown: false,
+              gestureEnabled: false,
             }}
           />
         </Stack.Navigator>
