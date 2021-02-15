@@ -34,7 +34,7 @@ export const updateStudent = (dataScanned) => {
         if (snapshot.val()[index].number === dataScanned) {
           firebase.database()
             .ref('Students/' + index)
-            .update({ status: "En classe" })
+            .update({ status: "Partir" })
             .then(snapshot => {
               resolve(snapshot);
             })
