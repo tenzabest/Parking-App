@@ -8,21 +8,11 @@ var firebaseConfig = {
   messagingSenderId: "623069687332",
   appId: "1:623069687332:web:c6dfc8071831e0734df2b1"
 };
-<<<<<<< HEAD
 
 // Initialize Firebase
 if (!firebase.apps.length) {
-  this.app = firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
 }
 
 export { firebase }
-=======
- 
-// Initialize Firebase
-if(!firebase.apps.length){
-  this.app=firebase.initializeApp(firebaseConfig); 
-}
-       
-export {firebase}
->>>>>>> c59f7228a4c28f9e7b0644a939e85e0347fa83be
 

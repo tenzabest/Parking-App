@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  View, TextInput, Button, Keyboard, TouchableWithoutFeedback
-} from "react-native"; import { CheckBox, ListItem } from 'react-native-elements'
+import { Alert, StyleSheet, View, TextInput, Button, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { CheckBox } from 'react-native-elements'
 import { Header } from 'react-native-elements';
 import { firebase } from "../Setup"
 import { updateStudent, SignOutUser } from "../firebaseService"
@@ -30,12 +26,11 @@ class SettingsScreen extends Component {
         { classe: "601", isChecked: true },
         { classe: "602", isChecked: true },
       ],
-      numero: ""
+      number: ""
     }
 
   }
   storeData = async () => {
-    console.log("coucou")
     try {
       const jsonValue = JSON.stringify(this.state.classes)
       await AsyncStorage.setItem('classes', jsonValue)
@@ -51,7 +46,6 @@ class SettingsScreen extends Component {
       this.props.parentCallBack(this.state.classes)
 
     } catch (e) {
-      // error reading value
     }
   }
   componentDidMount() {
@@ -88,11 +82,11 @@ class SettingsScreen extends Component {
     };
 
     const addStudent = () => {
-      let temp = this.state.numero
-      if (this.state.numero.length === 1) {
-        temp = "00" + this.state.numero
-      } else if (this.state.numero.length === 2) {
-        temp = "0" + this.state.numero
+      let temp = this.state.number
+      if (this.state.number.length === 1) {
+        temp = "00" + this.state.number
+      } else if (this.state.number.length === 2) {
+        temp = "0" + this.state.number
 
       }
       updateStudent(temp)
@@ -104,7 +98,7 @@ class SettingsScreen extends Component {
         });
 
 
-      this.setState({ numero: "" })
+      this.setState({ number: "" })
     }
     const resetAllUsers = () => {
 
@@ -125,7 +119,6 @@ class SettingsScreen extends Component {
           },
           {
             text: 'Non',
-            onPress: () => console.log('NON'),
             style: 'cancel'
           },
 
@@ -151,15 +144,13 @@ class SettingsScreen extends Component {
               placeholder="Ajouter un élève"
               style={styles.textInput}
               autoCapitalize="none"
-              value={this.state.numero}
-              onChangeText={text => this.setState({ numero: text })}
+              value={this.state.number}
+              onChangeText={text => this.setState({ number: text })}
               keyboardType="numeric"
             />
             <Button title="Ajouter" onPress={addStudent}></Button>
           </View>
-          {/* <View style={styles.title}>
-          <Text style={{ fontSize: 20 }}>Filtre par classe</Text>
-        </View> */}
+
           <View style={styles.container}>
 
             {
@@ -183,22 +174,13 @@ class SettingsScreen extends Component {
 export default SettingsScreen
 const styles = StyleSheet.create({
   container: {
-    // /flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 5,
     alignItems: 'flex-start'
   },
-  title: {
-    width: "100%",
-    height: "18%",
-    alignItems: "center",
-    justifyContent: "center",
-    //backgroundColor:"grey"
-  }, textInput: {
-    // flex: 1,
+  textInput: {
     marginTop: Platform.OS === 'ios' ? 0 : -12,
-    // paddingLeft:
     color: '#05375a',
     borderRadius: 5,
     backgroundColor: "white",
@@ -211,13 +193,5 @@ const styles = StyleSheet.create({
     width: '40%',
     marginHorizontal: 18,
     marginBottom: 6
-  }, button: {
-    alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10,
-    height: 60,
-    width: 300,
-    justifyContent: "center",
-    borderRadius: 20,
   },
 })

@@ -1,4 +1,3 @@
-import React from 'react';
 import { firebase } from "./Setup"
 
 export const SignInUser = (email, passswod) => {
@@ -16,7 +15,7 @@ export const SignInUser = (email, passswod) => {
 };
 
 export const SignOutUser = () => {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     firebase.auth()
       .signOut()
       .then(() => {
@@ -29,24 +28,24 @@ export const SignOutUser = () => {
 };
 
 export const updateStudent = (dataScanned) => {
-  return new Promise(function(resolve, reject) {
-    firebase.database().ref('Students').once('value', (snapshot) =>{
+  return new Promise(function (resolve, reject) {
+    firebase.database().ref('Students').once('value', (snapshot) => {
       for (let index = 0; index < Object.keys(snapshot.val()).length; index++) {
-     if(snapshot.val()[index].number===dataScanned){
-      firebase.database()
-      .ref('Students/' + index)
-      .update({status:"En classe"})
-      .then(snapshot => {
-        resolve(snapshot);
-      })
-      .catch(err => {
-        reject(err);
-      });
-     }
-   }
-
-  })
-
-
+        if (snapshot.val()[index].number === dataScanned) {
+          firebase.database()
+            .ref('Students/' + index)
+            .update({ status: "En classe" })
+            .then(snapshot => {
+              resolve(snapshot);
+            })
+            .catch(err => {
+              reject(err);
+            });
+        }
+      }
+    })
   });
 };
+
+
+

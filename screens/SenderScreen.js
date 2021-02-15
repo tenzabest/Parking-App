@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { NavigationContainer } from '@react-navigation/native';
-
 import ScannerScreen from "./ScannerScreen"
 import StudentsListScreen from "./StudentsListScreen"
 import SettingsScreen from "./SettingsScreen"
@@ -15,12 +12,12 @@ const Tab = createBottomTabNavigator();
 class SenderScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { classes: [] }
+    this.state = { classChecked: [] }
   }
 
   componentDidMount() { }
   getClasses = (classes) => {
-    this.setState({ classes: classes })
+    this.setState({ classChecked: classes })
   }
 
   render() {
@@ -32,12 +29,12 @@ class SenderScreen extends Component {
         }}
       >
         <Tab.Screen
-          name="Students"
-          children={() => <StudentsListScreen sendingData={this.state.classes}></StudentsListScreen>}
+          name="ListOfStudents"
+          children={() => <StudentsListScreen sendingData={this.state.classChecked}></StudentsListScreen>}
           options={{
-            tabBarLabel: 'Updates',
+            tabBarLabel: 'Lists',
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="account" color={color} size={size} />
+              <MaterialCommunityIcons name="view-list-outline" color={color} size={size} />
             )
           }}
         />
