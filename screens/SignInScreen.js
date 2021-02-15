@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar, } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Platform, StyleSheet, StatusBar,Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
@@ -41,10 +41,11 @@ class SignInScreen extends Component {
         };
 
         return (
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.container}>
                 <StatusBar backgroundColor='#009387' barStyle="light-content" />
                 <View style={styles.header}>
-                    <Text style={styles.text_header}>Welcome !</Text>
+                    <Text style={styles.text_header}>Bienvenue !</Text>
                 </View>
                 <View style={styles.footer}>
                     <Text style={styles.text_footer}>Email</Text>
@@ -110,6 +111,7 @@ class SignInScreen extends Component {
                     </View>
                 </View>
             </View>
+            </TouchableWithoutFeedback>
         );
     }
 };
@@ -125,7 +127,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         paddingHorizontal: 20,
-        paddingBottom: 50
+        paddingBottom: 50,
     },
     footer: {
         flex: 3,
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
     text_header: {
         color: '#fff',
         fontWeight: 'bold',
-        fontSize: 30
+        fontSize: 30,
     },
     text_footer: {
         color: '#05375a',
