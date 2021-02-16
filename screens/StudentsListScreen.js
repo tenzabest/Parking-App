@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState } from 'react';
-import { View,ScrollView,StatusBar } from 'react-native';
+import { View, ScrollView,StatusBar } from 'react-native';
 import { firebase } from "../Setup"
 import { ListItem } from 'react-native-elements'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -54,7 +54,7 @@ function ListStudentsInClass(props) {
 
                 <View style={{ flexDirection: "row" }}>
                   <ListItem.Subtitle style={{ fontWeight: 'bold' }}>{student.class}</ListItem.Subtitle>
-                  {student.status === "Partis" ?
+                  {student.status === "Partir" ?
                     <View style={{ marginLeft: "80%" }}>
 
                       <Feather
@@ -126,9 +126,9 @@ class StudentListScreen extends Component {
         />
         <Tab.Screen
           name="SecondList"
-          children={() => <ListStudentsInClass value="Partis" classeChecked={this.props.sendingData}></ListStudentsInClass>}
+          children={() => <ListStudentsInClass value="Partir" classeChecked={this.props.sendingData}></ListStudentsInClass>}
           options={{
-            tabBarLabel: 'Partis',
+            tabBarLabel: 'Partir',
 
           }} />
         <Tab.Screen

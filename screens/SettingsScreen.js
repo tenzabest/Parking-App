@@ -110,7 +110,7 @@ class SettingsScreen extends Component {
     const alertReset = () => {
       Alert.alert(
         'Attention !',
-        'Etes-vous sur de vouloir reinitialiser tout les eleves ?',
+        'Êtes-vous sur de vouloir réinitialiser tous les élèves ?',
         [
           {
             text: 'Oui',

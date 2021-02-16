@@ -53,7 +53,7 @@ class ScannerScreen extends Component {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>Le numero {this.state.data} a été scanné</Text>
+                <Text style={styles.modalText}>Le numéro {this.state.data} a été scanné</Text>
 
               </View>
             </View>
