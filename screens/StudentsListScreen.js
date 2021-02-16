@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView, StatusBar } from 'react-native';
+import { View,ScrollView,StatusBar } from 'react-native';
 import { firebase } from "../Setup"
 import { ListItem } from 'react-native-elements'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -40,7 +40,8 @@ function ListStudentsInClass(props) {
 
   return (
     <ScrollView>
-      <StatusBar backgroundColor='#009387' barStyle="light-content" />
+        <StatusBar backgroundColor='#009387' barStyle="light-content" />
+
       <View >
         {
 
