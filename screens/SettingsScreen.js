@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, View, TextInput, Button, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Alert, StyleSheet, View, TextInput, Button, Keyboard, TouchableWithoutFeedback} from "react-native";
 import { CheckBox } from 'react-native-elements'
 import { Header } from 'react-native-elements';
 import { firebase } from "../Setup"
@@ -42,16 +42,17 @@ class SettingsScreen extends Component {
   getData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem('classes')
+      if(JSON.parse(jsonValue)!==null){
       this.setState({ classes: JSON.parse(jsonValue) })
       this.props.parentCallBack(this.state.classes)
-
+      }
     } catch (e) {
       console.log(e)
     }
   }
   componentDidMount() {
     this.getData();
-
+    this.props.parentCallBack(this.state.classes)
   }
 
   updateState(index) {
