@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, View, TextInput, Button, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Alert, StyleSheet, View, TextInput, Button, Keyboard, TouchableWithoutFeedback} from "react-native";
 import { CheckBox } from 'react-native-elements'
 import { Header } from 'react-native-elements';
 import { firebase } from "../Setup"
@@ -52,7 +52,7 @@ class SettingsScreen extends Component {
   }
   componentDidMount() {
     this.getData();
-
+    this.props.parentCallBack(this.state.classes)
   }
 
   updateState(index) {
