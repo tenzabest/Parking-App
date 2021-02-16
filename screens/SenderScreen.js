@@ -32,7 +32,7 @@ class SenderScreen extends Component {
           name="ListOfStudents"
           children={() => <StudentsListScreen sendingData={this.state.classChecked}></StudentsListScreen>}
           options={{
-            tabBarLabel: 'Lists',
+            tabBarLabel: 'Listes',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="view-list-outline" color={color} size={size} />
             )
@@ -52,7 +52,7 @@ class SenderScreen extends Component {
           name="Settings"
           children={() => <SettingsScreen nav={this.props.navigation} parentCallBack={this.getClasses} ></SettingsScreen>}
           options={{
-            tabBarLabel: 'Settings',
+            tabBarLabel: 'Paramètres',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="account-settings" color={color} size={size} />
             ),
