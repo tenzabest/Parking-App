@@ -42,9 +42,10 @@ class SettingsScreen extends Component {
   getData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem('classes')
-      this.setState({ classes: JSON.parse(jsonValue) })
-      this.props.parentCallBack(this.state.classes)
-
+      if(JSON.parse(jsonValue) !== null){
+        this.setState({ classes: JSON.parse(jsonValue) })
+        this.props.parentCallBack(this.state.classes)
+      }
     } catch (e) {
       console.log(e)
     }
