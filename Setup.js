@@ -1,12 +1,13 @@
 import firebase from 'firebase';
 
 var firebaseConfig = {
-  apiKey: "AIzaSyBBloWNye8-VGjpEnY3YQRcMUnzMXwVbCY",
-  authDomain: "testfirebase3-7e7b4.firebaseapp.com",
-  projectId: "testfirebase3-7e7b4",
-  storageBucket: "testfirebase3-7e7b4.appspot.com",
-  messagingSenderId: "623069687332",
-  appId: "1:623069687332:web:c6dfc8071831e0734df2b1"
+  apiKey: "AIzaSyAfmu9tu6ZQuL-BwPwvBsCPN6bZHO29fWc",
+  authDomain: "parking-app-22757.firebaseapp.com",
+  databaseURL: "https://parking-app-22757-default-rtdb.firebaseio.com",
+  projectId: "parking-app-22757",
+  storageBucket: "parking-app-22757.appspot.com",
+  messagingSenderId: "164860668161",
+  appId: "1:164860668161:web:e0db0a1857bb4ac9355300"
 };
 
 // Initialize Firebase

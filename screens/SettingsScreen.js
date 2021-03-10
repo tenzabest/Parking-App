@@ -133,7 +133,7 @@ class SettingsScreen extends Component {
         <View >
           <Header
             leftComponent={{ icon: 'sync', color: 'black', onPress: alertReset }}
-            centerComponent={{ text: 'Parametres', style: { color: 'black' } }}
+            centerComponent={{ text: 'Paramètres', style: { color: 'black' } }}
             rightComponent={{ icon: 'logout', color: 'black', onPress: logout }}
             backgroundColor="white"
           />
